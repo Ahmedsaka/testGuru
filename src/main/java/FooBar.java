@@ -1,4 +1,4 @@
-public class FooBar {
+public class FooBar{
 
     public String getFoo(){
         return "Foo";
