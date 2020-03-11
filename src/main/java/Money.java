@@ -1,4 +1,4 @@
-public class Money {
+public class Money implements Expression {
     private String currency;
     protected int amount;
 
@@ -7,22 +7,22 @@ public class Money {
         this.currency = currency;
     }
 
-    public static Money dollar(int amount, String currency) {
-        return new Money(amount, currency);
+    public static Money dollar(int amount) {
+        return new Money(amount, "USD");
     }
 
     public String currency() {
         return currency;
     }
 
-    public static Money franc(int amount, String currency) {
-        return new Money(amount, currency);
+    public static Money franc(int amount) {
+        return new Money(amount, "CHF");
     }
 
     public boolean equals(Object o) {
         Money money = (Money) o;
-        return amount == money.amount
-                && currency.equals(money.currency()); //This line is added due to inheritance property
+        return currency.equals(money.currency())
+                && money.amount == amount; //This line is added due to inheritance property
     }
 
     public int getAmount() {
@@ -31,6 +31,10 @@ public class Money {
 
     public Money times(int multiplier){
         return new Money(amount * multiplier, this.currency);
+    }
+
+    public Expression plus(Money money) {
+        return new Money(amount + money.amount, this.currency);
     }
 
     @Override

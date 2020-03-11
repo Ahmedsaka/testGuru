@@ -7,7 +7,7 @@ public class MoneyTest {
     @Test
     void testMultiplication() {
 
-        Money five = Money.dollar(5, "USD");
+        Money five = Money.dollar(5);
         System.out.println(five.amount);
         Money product = five.times(3);
         System.out.println(product.getAmount());
@@ -16,15 +16,15 @@ public class MoneyTest {
 
     @Test
     void testEquality() {
-        assertEquals(Money.dollar(5, "USD"), Money.dollar(5, "USD"));
-        assertNotEquals(Money.dollar(5, "USD"), Money.dollar(8, "USD"));
-        assertNotEquals(Money.dollar(5, "USD"), Money.franc(5, "CHF"));
+        assertEquals(Money.dollar(5), Money.dollar(5));
+        assertNotEquals(Money.dollar(5), Money.dollar(8));
+        assertNotEquals(Money.dollar(5), Money.franc(5));
     }
 
     @Test
     void testMultiplicationFranc() {
 
-        Money five = Money.dollar(5, "USD");
+        Money five = Money.dollar(5);
         five.times(2);
         Money product = five.times(3);
         assertEquals(15, product.getAmount());
@@ -32,14 +32,24 @@ public class MoneyTest {
 
     @Test
     void testEqualityFranc() {
-        assertEquals(Money.franc(5, "CHF"), Money.franc(5, "CHF"), "CHF");
-        assertNotEquals(Money.franc(5, "CHF"), Money.franc(8, "CHF"));
+        assertEquals(Money.franc(5), Money.franc(5), "CHF");
+        assertNotEquals(Money.franc(5), Money.franc(8));
     }
 
 
     @Test
     void testCurrency() {
-        assertEquals("USD", Money.dollar(1, "USD").currency());
-        assertEquals("CHF", Money.franc(1, "CHF").currency());
+        assertEquals("USD", Money.dollar(1).currency());
+        assertEquals("CHF", Money.franc(1).currency());
+    }
+
+    @Test
+    void testSimpleAddition() {
+        Money five = Money.dollar(5);
+        Expression sum = five.plus(five);
+        Bank bank = new Bank();
+        Money reduced = bank.reduce(sum, "USD");
+        assertEquals(Money.dollar(10), reduced);
+
     }
 }
